@@ -1,0 +1,162 @@
+{% extends 'layout.html' %} <br>
+
+{% block content %}
+
+{% include 'includes/header.html' %}
+
+<div class="container-lg">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron">
+
+                <h4>Gerenciar Números <button class="btn btn-primary float-right" data-toggle="modal"
+                        data-target="#mymodal">Add new Number</button> </h4>
+
+                <table class="table table-hover table-dark mt-5">
+                    <tr>
+                        <th>Status</th>
+                        <th>Número</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Descrição</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                    {% for item in contatos %}
+                    <tr>
+                        <td>
+                            <div class="{{item.status}}"></div>
+                        </td>
+                        <td>{{item.number}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.data}}</td>
+                        <td>{{item.hora}}</td>
+                        <td>{{item.description}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-success btn-sm" target="_blank"
+                                href="https://api.whatsapp.com/send?phone=+55(28){{item.number}}">Whatsapp</a>
+                            <a href="/update/{{item.id}}" class="btn btn-warning btn-sm" data-toggle="modal"
+                                data-target="#modaledit{{item.id}}">Editar</a>
+                            <a href="/delete/{{item.id}}" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Temcerteza que deseja excluir?')">Excluir</a>
+                        </td>
+                    </tr>
+
+                    <!-- Modal de EDITAR números -->
+                    <div id="modaledit{{item.id}}" class="modal fade" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form action="{{url_for('update')}}" method="POST">
+                                        <div class="form-group">
+                                            <label for="numero">Número</label>
+                                            <input type="hidden" name="id" value="{{item.id}}">
+                                            <input type="text" class="form-control" id="numero" value="{{item.number}}"
+                                                name="number">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="nome">Nome</label>
+                                            <input type="text" class="form-control" id="nome" value="{{item.name}}"
+                                                name="name">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="data">Data</label>
+                                            <input type="date" class="form-control" id="data" value="{{item.data}}"
+                                                name="data">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="hora">Horário</label>
+                                            <input type="time" class="form-control" id="hora" value="{{item.hora}}"
+                                                name="hora">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="status-num">Status</label>
+                                            <select class="form-control" defaulValue="{{item.status}}" id="status-num"
+                                                name="status">
+                                                <option value="status3">Não feito</option>
+                                                <option value="status5">Feito</option>
+                                                <option value="status2">Revisita</option>
+                                                <option value="status4">Fora de ária</option>
+                                                <option value="status1">Não ligar novamente</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="desc">Descrição</label>
+                                            <textarea class="form-control" id="desc" rows="3" name="description">
+                                                {{item.description}}
+                                            </textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button href="#" type="submit" class="btn btn-primary">Salvar
+                                            Alterações</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIM do Modal de EDITAR números -->
+                    {% endfor %}
+                </table>
+            </div>
+
+
+
+            <!-- Modal de ADICIONAR números -->
+            <div id="mymodal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{url_for('create')}}" method="POST">
+                                <div class="form-group">
+                                    <label for="numero">Número</label>
+                                    <input type="text" class="form-control" id="numero" name="number">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="form-control" id="nome" name="name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="data">Data</label>
+                                    <input type="date" class="form-control" id="data" name="data">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hora">Horário</label>
+                                    <input type="time" class="form-control" id="hora" name="hora">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status-num">Status</label>
+                                    <select class="form-control" id="status-num" name="status">
+                                        <option value="status3">Não feito</option>
+                                        <option value="status5">Feito</option>
+                                        <option value="status2">Revisita</option>
+                                        <option value="status4">Fora de ária</option>
+                                        <option value="status1">Não ligar novamente</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc">Descrição</label>
+                                    <textarea class="form-control" id="desc" rows="3" name="description"></textarea>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Salvar número</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM do Modal de ADICIONAR números -->
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

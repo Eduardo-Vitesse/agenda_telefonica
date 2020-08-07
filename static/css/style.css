@@ -1,0 +1,39 @@
+/* NÃO LIGAR NOVAMENTE */
+.status1 {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: #ff0000;
+}
+
+/* REVISITA */
+.status2 {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: #00ff00;
+}
+
+/* NÃO FEITO AINDA */
+.status3 {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: #ffffff;
+}
+
+/* CAIXA POSTAL / FORA DE ÁREA */
+.status4 {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: #ffff00;
+}
+
+/* FEITO */
+.status5 {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: #0000ff;
+}
